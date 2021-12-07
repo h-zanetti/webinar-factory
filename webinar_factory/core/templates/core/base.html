@@ -1,0 +1,47 @@
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    {% bootstrap_css %}
+    <title>
+        {% if title %}
+        DSM LATAM | {{ title }}
+        {% else %}
+            DSM LATAM
+        {% endif %}
+    </title>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <header class="navbar navbar-dark fixed-top bg-dark p-2 shadow">
+                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">DICI LATAM</a>
+                <ul class="navbar-nav px-3">
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'core:logout' %}">Sign out</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'core:login' %}">Sign in</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </header>
+        </div>
+        
+        <div class="row mt-5 pt-3">
+            {% bootstrap_messages %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    {% bootstrap_javascript %}
+</body>
+</html>

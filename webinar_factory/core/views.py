@@ -1,6 +1,7 @@
-from django.http.request import HttpRequest
-from django.http.response import HttpResponse
 from django.shortcuts import render
+from  django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
+@login_required(login_url='/login/')
 def index(request):
-    return HttpResponse('Hello, world!')
+    return render(request, 'core/index.html')
