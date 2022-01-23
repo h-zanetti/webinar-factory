@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Local Django Apps
     'webinar_factory.core',
+    'webinar_factory.webinars',
     # Third Party Apps
     'bootstrap5',
 ]
