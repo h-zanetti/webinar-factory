@@ -87,3 +87,11 @@ def delete_webinar(request, pk):
             return redirect('core:index')
     except Webinar.DoesNotExist:
         raise Http404('Webinar not found.')
+
+def webinar_dashboard(request):
+    context = {
+        'title': 'Dashboard',
+        'user': request.user,
+        'webinars': Webinar.objects.filter(organizer=request.user)
+    }
+    return render(request, 'core/dashboard.html', context)

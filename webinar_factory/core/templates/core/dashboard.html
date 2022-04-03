@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<div class="container mt-2">
+    <div class="row mb-4 d-flex justify-content-center">
+        <div class="col-lg-6 col-sm-12">
+            <h1 class="display-5 text-center mb-3 pb-2 border-bottom">Dashboard</h1>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 g-4">
+        {% for webinar in webinars %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ webinar.name }}</h5>
+                        <p class="card-text">{{ webinar.description|truncatechars:100 }}</p>
+                        <div class="row gx-1">
+                            <div class="col-4">
+                                <a href="{% url 'core:read_webinar' webinar.pk %}" class="btn btn-primary w-100">Visualizar</a>
+                            </div>
+                            <div class="col-4">
+                                <a href="{% url 'core:update_webinar' webinar.pk %}" class="btn btn-primary w-100">Editar</a>
+                            </div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteWebinarModal{{ webinar.id }}">
+                                    Deletar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Delete Webinar Modal -->
+            <div class="modal fade" id="deleteWebinarModal{{ webinar.id }}" tabindex="-1" aria-labelledby="deleteWebinarModal{{ webinar.id }}Label" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="deleteWebinarModal{{ webinar.id }}Label">Deletar Webinário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <strong>{{ webinar.name }}</strong>
+                        <p>Tem certeza que deseja DELETAR este webinar?</p>
+                        <p>Essa operação é IRREVERSÍVEL</p>
+                        <p>Este webinário será PERDIDO PARA SEMPRE</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="{% url 'core:delete_webinar' webinar.pk %}" method="POST">
+                            {% csrf_token %}
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger">Deletar</button>
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+      
+</div>
+
+{% endblock %}
