@@ -37,10 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Local Django Apps
-    'webinar_factory.core',
-    # Third Party Apps
     'bootstrap5',
+    'webinar_factory.core',
+    'webinar_factory.users',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +102,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Custom Users
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

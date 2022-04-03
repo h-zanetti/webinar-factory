@@ -6,7 +6,9 @@ app_name = 'core'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('register/', views.register, name='register'),
-    path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('manage_tags/', views.manage_tags, name='manage_tags'),
+    path('create_webinar/', views.create_webinar, name='create_webinar'),
+    path('read_webinar/<int:pk>', views.read_webinar, name='read_webinar'),
+    path('update_webinar/<int:pk>', views.update_webinar, name='update_webinar'),
+    path('delete_webinar/<int:pk>', views.delete_webinar, name='delete_webinar'),
 ]

@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 text-center mt-1 mb-4">
+            <h1 class="display-5 border-bottom pb-3">{{ webinar.name }}</h1>
+        </div>
+        <div class="col-lg-6 col-md-9 col-sm-12 p-3 border rounded shadow">
+            <div class="container-fluid">
+                <div class="row border-bottom mb-3">
+                    <p>
+                        <strong>Descrição:</strong>
+                        {{ webinar.description }}
+                    </p>
+                    <p>
+                        <strong>Duração:</strong> {{ webinar.get_duration }}
+                    </p>
+                </div>
+                <div class="row border-bottom mb-3">
+                    <p>
+                        <strong>Organizador:</strong>
+                        {{ webinar.organizer.get_full_name }}
+                    </p>
+                </div>
+                <div class="row border-bottom mb-3">
+                    <p>
+                        <strong>Palestrantes:</strong>
+                    </p>
+                    {% if webinar.speakers.all %}
+                        <ul class="ms-4">
+                            {% for speaker in webinar.speakers.all %}
+                                <li>{{ speaker.get_full_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Indisponível, verifique novamente mais tarde.</p>
+                    {% endif %}
+                </div>
+                <div class="row border-bottom mb-3">
+                    <p>
+                        <strong>Tópicos:</strong>
+                    </p>
+                    {% if webinar.tags.all %}
+                        <ul class="ms-4">
+                            {% for tag in webinar.tags.all %}
+                                <li>{{ tag.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Indisponível, verifique novamente mais tarde.</p>
+                    {% endif %}
+                </div>
+                <div class="row border-bottom mb-3">
+                    <p>
+                        <strong>Data:</strong>
+                        <ul class="ms-4">
+                            <li><strong>Início:</strong> {{ webinar.start_dt }}</li>
+                            <li><strong>Fim:</strong> {{ webinar.end_dt }}</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="row border-bottom mb-3">
+                    <p>
+                        <strong>Ingresso:</strong>
+                        {{ webinar.get_ticket_price_display }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}            
