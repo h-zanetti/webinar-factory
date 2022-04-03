@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.contrib import messages
 from django.forms import modelformset_factory
 from django.http.response import HttpResponse
@@ -26,3 +27,21 @@ def manage_tags(request):
     }
 
     return render(request, 'core/manage_tags.html', context)
+
+def create_webinar(request):
+    if request.method == 'POST':
+        form = WebinarCreationForm(request.POST, initial={'organizer': request.user})
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Webinário criado com sucesso!')
+            # TODO: redirect to read_webinar
+            return redirect('core:index')
+    else:
+        form = WebinarCreationForm(initial={'organizer': request.user})
+    
+    context = {
+        'title': 'Criar Novo Webinário',
+        'form_action': reverse('core:create_webinar'),
+        'form': form,
+    }
+    return render(request, 'core/base_lg_form.html', context)

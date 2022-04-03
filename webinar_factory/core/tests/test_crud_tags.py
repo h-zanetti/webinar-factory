@@ -1,7 +1,6 @@
 import pytest
 from django.urls import reverse
-from webinar_factory.users.models import User
-from webinar_factory.core.models import Tag, Webinar
+from webinar_factory.core.models import Tag
 from pytest_django.asserts import assertContains, assertRedirects
 
 # GET

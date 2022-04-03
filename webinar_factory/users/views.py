@@ -21,7 +21,7 @@ def register(request):
         'form_action': reverse('register'),
         'form': form,
     }
-    return render(request, 'users/base_form.html', context)
+    return render(request, 'core/base_form.html', context)
 
 @login_required(login_url='/users/login/')
 def update_user(request):
@@ -43,4 +43,4 @@ def update_user(request):
         'user': user,
         'form': form,
     }
-    return render(request, 'users/base_form.html', context)
+    return render(request, 'core/base_form.html', context)
