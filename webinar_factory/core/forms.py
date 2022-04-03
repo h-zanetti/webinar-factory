@@ -7,7 +7,7 @@ class TagForm(forms.ModelForm):
         model = Tag
         fields = '__all__'
 
-class WebinarCreationForm(forms.ModelForm):
+class WebinarForm(forms.ModelForm):
     organizer = forms.ModelChoiceField(
         queryset=User.objects.all(),
         disabled=True, widget=forms.HiddenInput()

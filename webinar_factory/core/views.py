@@ -5,7 +5,7 @@ from django.forms import modelformset_factory
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from webinar_factory.core.models import Tag, Webinar
-from webinar_factory.core.forms import TagForm, WebinarCreationForm
+from webinar_factory.core.forms import TagForm, WebinarForm
 
 def index(request):
     return HttpResponse('Hello, world!')
@@ -31,13 +31,13 @@ def manage_tags(request):
 
 def create_webinar(request):
     if request.method == 'POST':
-        form = WebinarCreationForm(request.POST, initial={'organizer': request.user})
+        form = WebinarForm(request.POST, initial={'organizer': request.user})
         if form.is_valid():
             webinar = form.save()
             messages.success(request, 'Webinário criado com sucesso!')
             return redirect(reverse('core:read_webinar', kwargs={'pk':webinar.pk}))
     else:
-        form = WebinarCreationForm(initial={'organizer': request.user})
+        form = WebinarForm(initial={'organizer': request.user})
     
     context = {
         'title': 'Criar novo webinário',
@@ -54,5 +54,27 @@ def read_webinar(request, pk):
             'webinar': webinar,
         }
         return render(request, 'core/read_webinar.html', context)
+    except Webinar.DoesNotExist:
+        raise Http404('Webinar not found.')
+
+def update_webinar(request, pk):
+    try:
+        webinar = Webinar.objects.get(pk=pk)
+        if request.method == 'POST':
+            form = WebinarForm(request.POST, instance=webinar)
+            if form.is_valid():
+                webinar = form.save()
+                messages.success(request, 'Webinário atualizado com sucesso.')
+                return redirect(reverse('core:read_webinar', kwargs={'pk':webinar.pk}))
+        else:
+            form = WebinarForm(instance=webinar)
+        
+        context = {
+            'title': 'Atualizar webinário',
+            'webinar': webinar,
+            'form': form,
+            'form_action': reverse('core:update_webinar', kwargs={'pk': pk}),
+        }
+        return render(request, 'core/base_lg_form.html', context)
     except Webinar.DoesNotExist:
         raise Http404('Webinar not found.')

@@ -59,7 +59,7 @@ def response_post_create_webinar(client, tags, organizer, speaker):
 
 def test_create_webinar_redirection(response_post_create_webinar):
     assertRedirects(response_post_create_webinar,
-                    reverse('core:index'))
+                    reverse('core:read_webinar', kwargs={'pk': 1}))
 
 def test_webinar_successfully_created(response_post_create_webinar):
     assert Webinar.objects.exists()
@@ -111,7 +111,44 @@ def test_tags_present_read_webinar(response_get_read_webinar, webinar):
 # Update
 
 # GET
+@pytest.fixture
+def response_get_update_webinar(client, webinar):
+    return client.get(reverse(
+        'core:update_webinar', kwargs={'pk':webinar.pk}))
+
+def test_update_webinar_status_code(response_get_update_webinar):
+    assert response_get_update_webinar.status_code == 200
+
+def test_update_webinar_form_present(response_get_update_webinar, webinar):
+    assertContains(
+        response_get_update_webinar,
+        f'<form action="{reverse("core:update_webinar", kwargs={"pk":webinar.pk})}" method="POST"')
+
+def test_update_webinar_submit_btn_present(response_get_update_webinar):
+    assertContains(response_get_update_webinar, '<button type="submit"')
+
 # POST
+@pytest.fixture
+def response_post_update_webinar(client, webinar, speaker, tags):
+    return client.post(reverse(
+        'core:update_webinar', kwargs={'pk':webinar.pk}),
+        data={
+            'name': 'Economia Austríaca',
+            'speakers': [speaker.id],
+            'tags': [tag.id for tag in tags],
+            'description': 'Cool stuff!',
+            'ticket_price': 100,
+            'start_dt': '2020-04-01 09:00:00',
+            'end_dt': '2020-04-01 14:00:00',
+        })
+
+def test_update_webinar_redirection(response_post_update_webinar):
+    assertRedirects(response_post_update_webinar,
+                    reverse('core:read_webinar', kwargs={'pk': 1}))
+
+def test_webinar_successfully_updated(response_post_update_webinar):
+    assert Webinar.objects.first().name == 'Economia Austríaca'
+
 
 # Delete
 

@@ -8,4 +8,5 @@ urlpatterns = [
     path('manage_tags/', views.manage_tags, name='manage_tags'),
     path('create_webinar/', views.create_webinar, name='create_webinar'),
     path('read_webinar/<int:pk>', views.read_webinar, name='read_webinar'),
+    path('update_webinar/<int:pk>', views.update_webinar, name='update_webinar'),
 ]
