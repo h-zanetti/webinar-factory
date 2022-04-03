@@ -1,8 +1,9 @@
 from django.urls import path, include
-from .views import index
+from . import views
 
 app_name = 'core'
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', views.index, name='index'),
+    path('manage_tags', views.manage_tags, name='manage_tags'),
 ]
