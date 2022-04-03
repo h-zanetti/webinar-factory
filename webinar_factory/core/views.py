@@ -8,7 +8,7 @@ from webinar_factory.core.models import Tag, Webinar
 from webinar_factory.core.forms import TagForm, WebinarForm
 
 def index(request):
-    return HttpResponse('Hello, world!')
+    return render(request, 'core/index.html')
 
 def manage_tags(request):
     TagFormSet = modelformset_factory(Tag, fields='__all__', can_delete=True, form=TagForm)
