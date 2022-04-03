@@ -17,14 +17,41 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row mt-2">
+    <div class="container-fluid">
+        <div class="row">
+            <header class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark p-2 shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Webinar Fctory</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav px-3 ms-auto">
+                            {% if request.user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'core:logout' %}">Logout</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'core:login' %}">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'core:register' %}">Registro</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <div class="row mt-5 pt-3">
             {% bootstrap_messages %}
+            {% block content %}{% endblock %}
         </div>
     </div>
 
-    {% block content %}{% endblock content %}
-    
+    <!-- Bootstrap JS -->
     {% bootstrap_javascript %}
 </body>
 </html>
