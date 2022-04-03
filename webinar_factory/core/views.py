@@ -78,3 +78,13 @@ def update_webinar(request, pk):
         return render(request, 'core/base_lg_form.html', context)
     except Webinar.DoesNotExist:
         raise Http404('Webinar not found.')
+
+def delete_webinar(request, pk):
+    try:
+        webinar = Webinar.objects.get(pk=pk)
+        if request.method == 'POST':
+            webinar.delete()
+            # TODO: redirect to dashboard
+            return redirect('core:index')
+    except Webinar.DoesNotExist:
+        raise Http404('Webinar not found.')

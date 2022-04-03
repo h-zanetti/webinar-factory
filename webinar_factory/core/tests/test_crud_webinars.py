@@ -151,6 +151,13 @@ def test_webinar_successfully_updated(response_post_update_webinar):
 
 
 # Delete
+@pytest.fixture
+def response_delete_webinar(client, webinar):
+    return client.post(reverse(
+        'core:delete_webinar', kwargs={'pk':webinar.pk}))
 
-# GET
-# POST
+def test_delete_webinar_redirection(response_delete_webinar):
+    assertRedirects(response_delete_webinar, reverse('core:index'))
+
+def test_webinar_deleted(response_delete_webinar):
+    assert not Webinar.objects.exists()
