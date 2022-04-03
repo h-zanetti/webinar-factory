@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.urls import reverse
 from django.contrib import messages
 from django.forms import modelformset_factory
@@ -22,7 +23,7 @@ def manage_tags(request):
         formset = TagFormSet()
 
     context = {
-        'title': 'Gerenciar Tags',
+        'title': 'Gerenciar tags',
         'formset': formset
     }
 
@@ -32,16 +33,26 @@ def create_webinar(request):
     if request.method == 'POST':
         form = WebinarCreationForm(request.POST, initial={'organizer': request.user})
         if form.is_valid():
-            form.save()
+            webinar = form.save()
             messages.success(request, 'Webinário criado com sucesso!')
-            # TODO: redirect to read_webinar
-            return redirect('core:index')
+            return redirect(reverse('core:read_webinar', kwargs={'pk':webinar.pk}))
     else:
         form = WebinarCreationForm(initial={'organizer': request.user})
     
     context = {
-        'title': 'Criar Novo Webinário',
+        'title': 'Criar novo webinário',
         'form_action': reverse('core:create_webinar'),
         'form': form,
     }
     return render(request, 'core/base_lg_form.html', context)
+
+def read_webinar(request, pk):
+    try:
+        webinar = Webinar.objects.get(pk=pk)
+        context = {
+            'title': webinar.name,
+            'webinar': webinar,
+        }
+        return render(request, 'core/read_webinar.html', context)
+    except Webinar.DoesNotExist:
+        raise Http404('Webinar not found.')

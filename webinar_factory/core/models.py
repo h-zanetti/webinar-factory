@@ -19,3 +19,12 @@ class Webinar(models.Model):
 
     def __str__(self):
         return f'{self.name} by {self.organizer}'
+    
+    def get_duration(self):
+        return self.end_dt - self.start_dt
+
+    def get_ticket_price_display(self):
+        if self.ticket_price:
+            return self.ticket_price
+        else:
+            return 'Evento gratuito!'

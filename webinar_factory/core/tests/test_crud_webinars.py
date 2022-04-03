@@ -68,3 +68,52 @@ def test_organizer_is_webinar_creator(response_post_create_webinar):
     webinar = Webinar.objects.first()
     organizer = User.objects.get(email='organizer@webinarfactory.com.br')
     assert webinar.organizer == organizer
+
+# Read 
+@pytest.fixture
+def webinar(organizer, speaker, tags):
+    instance =  Webinar.objects.create(
+        name='Blockchain 101: Criptomoedas e NFTs',
+        organizer=organizer,
+        description='Cool stuff!',
+        ticket_price=100,
+        start_dt='2020-04-01 09:00:00',
+        end_dt='2020-04-01 14:00:00',
+    )
+    instance.speakers.add(speaker)
+    for tag in tags:
+        instance.tags.add(tag.id)
+    return instance
+
+@pytest.fixture
+def response_get_read_webinar(client, webinar):
+    return client.get(reverse(
+        'core:read_webinar', kwargs={'pk':webinar.pk}))
+
+def test_read_webinar_status_code(response_get_read_webinar):
+    assert response_get_read_webinar.status_code == 200
+
+def test_webinar_present(response_get_read_webinar, webinar):
+    assertContains(response_get_read_webinar, webinar.name)
+    assertContains(response_get_read_webinar, webinar.organizer.get_full_name())
+    assertContains(response_get_read_webinar, webinar.description)
+    assertContains(response_get_read_webinar, webinar.ticket_price)
+
+def test_speakers_present_read_webinar(response_get_read_webinar, webinar):
+    for speaker in webinar.speakers.all():
+        assertContains(response_get_read_webinar, speaker.get_full_name())
+
+def test_tags_present_read_webinar(response_get_read_webinar, webinar):
+    for tag in webinar.tags.all():
+        assertContains(response_get_read_webinar, tag.name)
+
+
+# Update
+
+# GET
+# POST
+
+# Delete
+
+# GET
+# POST
