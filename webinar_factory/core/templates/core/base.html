@@ -29,14 +29,14 @@
                         <ul class="navbar-nav px-3 ms-auto">
                             {% if request.user.is_authenticated %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'core:logout' %}">Logout</a>
+                                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                                 </li>
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'core:login' %}">Login</a>
+                                    <a class="nav-link" href="{% url 'login' %}">Login</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'core:register' %}">Registro</a>
+                                    <a class="nav-link" href="{% url 'register' %}">Registro</a>
                                 </li>
                             {% endif %}
                         </ul>
