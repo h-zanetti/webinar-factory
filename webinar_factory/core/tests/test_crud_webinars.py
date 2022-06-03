@@ -3,6 +3,13 @@ from django.urls import reverse
 from webinar_factory.core.models import Tag, Webinar
 from webinar_factory.users.models import User
 from pytest_django.asserts import assertContains, assertRedirects
+from webinar_factory.users.models import User
+
+
+# Fixtures
+@pytest.fixture
+def user(db):
+    return User.objects.create_user(email='root@webinarfactory.com.br', password='ineditaPamonha')
 
 @pytest.fixture
 def tags(db):
@@ -15,7 +22,8 @@ def tags(db):
 
 # GET
 @pytest.fixture
-def response_get_create_webinar(client, tags):
+def response_get_create_webinar(client, user, tags):
+    client.force_login(user)
     return client.get(reverse('core:create_webinar'))
 
 def test_create_webinar_status_code(response_get_create_webinar):
@@ -86,7 +94,8 @@ def webinar(organizer, speaker, tags):
     return instance
 
 @pytest.fixture
-def response_get_read_webinar(client, webinar):
+def response_get_read_webinar(client, user, webinar):
+    client.force_login(user)
     return client.get(reverse(
         'core:read_webinar', kwargs={'pk':webinar.pk}))
 
@@ -112,7 +121,8 @@ def test_tags_present_read_webinar(response_get_read_webinar, webinar):
 
 # GET
 @pytest.fixture
-def response_get_update_webinar(client, webinar):
+def response_get_update_webinar(client, user, webinar):
+    client.force_login(user)
     return client.get(reverse(
         'core:update_webinar', kwargs={'pk':webinar.pk}))
 
@@ -129,7 +139,8 @@ def test_update_webinar_submit_btn_present(response_get_update_webinar):
 
 # POST
 @pytest.fixture
-def response_post_update_webinar(client, webinar, speaker, tags):
+def response_post_update_webinar(client, user, webinar, speaker, tags):
+    client.force_login(user)
     return client.post(reverse(
         'core:update_webinar', kwargs={'pk':webinar.pk}),
         data={
@@ -152,7 +163,8 @@ def test_webinar_successfully_updated(response_post_update_webinar):
 
 # Delete
 @pytest.fixture
-def response_delete_webinar(client, webinar):
+def response_delete_webinar(client, user, webinar):
+    client.force_login(user)
     return client.post(reverse(
         'core:delete_webinar', kwargs={'pk':webinar.pk}))
 

@@ -9,7 +9,7 @@
 
     <title>
         {% if title %}
-            Webinar Factory | {{ title }}
+        {{ title }} | Webinar Factory
         {% else %}
             Webinar Factory
         {% endif %}
@@ -35,9 +35,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'login' %}">Login</a>
                                 </li>
-                                <li class="nav-item">
+                                {% comment %} <li class="nav-item">
                                     <a class="nav-link" href="{% url 'register' %}">Registro</a>
-                                </li>
+                                </li> {% endcomment %}
                             {% endif %}
                         </ul>
                     </div>
@@ -46,8 +46,14 @@
         </div>
 
         <div class="row mt-5 pt-3">
-            {% bootstrap_messages %}
-            {% block content %}{% endblock %}
+            <div class="container mb-4">
+                <div class="row">
+                    {% bootstrap_messages %}
+                </div>
+                <div class="row">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
         </div>
     </div>
 

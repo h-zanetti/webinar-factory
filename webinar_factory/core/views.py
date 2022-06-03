@@ -2,14 +2,17 @@ from django.http import Http404
 from django.urls import reverse
 from django.contrib import messages
 from django.forms import modelformset_factory
+from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from webinar_factory.core.models import Tag, Webinar
 from webinar_factory.core.forms import TagForm, WebinarForm
 
+@login_required(login_url='/users/login/')
 def index(request):
     return render(request, 'core/index.html')
 
+@login_required(login_url='/users/login/')
 def manage_tags(request):
     TagFormSet = modelformset_factory(Tag, fields='__all__', can_delete=True, form=TagForm)
     if request.method == 'POST':
@@ -28,6 +31,7 @@ def manage_tags(request):
 
     return render(request, 'core/manage_tags.html', context)
 
+@login_required(login_url='/users/login/')
 def create_webinar(request):
     if request.method == 'POST':
         form = WebinarForm(request.POST, initial={'organizer': request.user})
@@ -45,6 +49,7 @@ def create_webinar(request):
     }
     return render(request, 'core/base_lg_form.html', context)
 
+@login_required(login_url='/users/login/')
 def read_webinar(request, pk):
     try:
         webinar = Webinar.objects.get(pk=pk)
@@ -56,6 +61,7 @@ def read_webinar(request, pk):
     except Webinar.DoesNotExist:
         raise Http404('Webinar not found.')
 
+@login_required(login_url='/users/login/')
 def update_webinar(request, pk):
     try:
         webinar = Webinar.objects.get(pk=pk)
@@ -78,6 +84,7 @@ def update_webinar(request, pk):
     except Webinar.DoesNotExist:
         raise Http404('Webinar not found.')
 
+@login_required(login_url='/users/login/')
 def delete_webinar(request, pk):
     try:
         webinar = Webinar.objects.get(pk=pk)
