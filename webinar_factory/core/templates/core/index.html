@@ -4,8 +4,15 @@
 <div class="container mt-5">
     <div class="row d-flex justify-content-center mx-2">
         <div class="col-lg-6 col-sm-12 p-4">
-            <h1 class="display-5 text-center mb-2 border-bottom">Hello, world!</h1>
+            <h1 class="display-5 text-center mb-2 border-bottom">Webinar Factory</h1>
         </div>
+    </div>
+    <div class="row mx-3">
+        {% for webinar in webinars %}
+            <div class="col-lg-4 col-6">
+                {{ webinar }}
+            </div>
+        {% endfor %}
     </div>
 </div>
 

@@ -10,7 +10,11 @@ from webinar_factory.core.forms import TagForm, WebinarForm
 
 @login_required(login_url='/users/login/')
 def index(request):
-    return HttpResponse('Hello, world!')
+    context = {
+        'webinars': Webinar.objects.all(),
+        'tags': Tag.objects.all(),
+    }
+    return render(request, 'core/index.html', context)
 
 @login_required(login_url='/users/login/')
 def manage_tags(request):
