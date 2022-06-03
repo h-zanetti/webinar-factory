@@ -46,6 +46,3 @@ def resposta_logout(client, user):
 
 def test_user_not_autenticated(resposta_logout):
     assert not resposta_logout.wsgi_request.user.is_authenticated
-
-def test_logout_post_redirection(resposta_logout):
-    assertRedirects(resposta_logout, reverse('core:index'))

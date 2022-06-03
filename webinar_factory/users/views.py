@@ -43,4 +43,4 @@ def update_user(request):
         'user': user,
         'form': form,
     }
-    return render(request, 'core/login.html', context)
+    return render(request, 'core/base_form.html', context)

@@ -9,9 +9,9 @@
             <form action="{% url 'login' %}" method="POST" class="mt-3">
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                <div class="mb-2">
+                {% comment %} <div class="mb-2">
                     <a href="{% url 'register' %}">Ainda não foi registrado?</a>
-                </div>
+                </div> {% endcomment %}
                 <button type="submit" class="btn btn-primary w-100">Enviar</button>
             </form>
         </div>

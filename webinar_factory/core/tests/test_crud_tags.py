@@ -3,7 +3,14 @@ from django.urls import reverse
 from webinar_factory.core.models import Tag
 from pytest_django.asserts import assertContains, assertRedirects
 
-# GET
+from webinar_factory.users.models import User
+
+
+# Fixtures
+@pytest.fixture
+def user(db):
+    return User.objects.create_user(email='root@webinarfactory.com.br', password='ineditaPamonha')
+
 @pytest.fixture
 def tags(db):
     return [
@@ -13,7 +20,8 @@ def tags(db):
 
 # Read
 @pytest.fixture
-def resposta_get_crud_tags(client, tags):
+def resposta_get_crud_tags(client, user, tags):
+    client.force_login(user)
     return client.get(reverse('core:manage_tags'))
 
 def test_get_crud_tags_status_code(resposta_get_crud_tags):
@@ -36,7 +44,8 @@ def test_tags_present(resposta_get_crud_tags, tags):
 
 # POST
 @pytest.fixture
-def resposta_post_crud_tags(client, tags):
+def resposta_post_crud_tags(client, user, tags):
+    client.force_login(user)
     return client.post(reverse('core:manage_tags'), data={
         'form-TOTAL_FORMS': 3,
         'form-INITIAL_FORMS': 2,
