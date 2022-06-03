@@ -11,4 +11,5 @@ urlpatterns = [
     path('read_webinar/<int:pk>', views.read_webinar, name='read_webinar'),
     path('update_webinar/<int:pk>', views.update_webinar, name='update_webinar'),
     path('delete_webinar/<int:pk>', views.delete_webinar, name='delete_webinar'),
+    path('webinar_dashboard/', views.webinar_dashboard, name='webinar_dashboard'),
 ]

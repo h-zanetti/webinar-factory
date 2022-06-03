@@ -8,7 +8,7 @@ from webinar_factory.core.models import Tag, Webinar
 from webinar_factory.core.forms import TagForm, WebinarForm
 
 def index(request):
-    return HttpResponse('Hello, world!')
+    return render(request, 'core/index.html')
 
 def manage_tags(request):
     TagFormSet = modelformset_factory(Tag, fields='__all__', can_delete=True, form=TagForm)
@@ -87,3 +87,11 @@ def delete_webinar(request, pk):
             return redirect('core:index')
     except Webinar.DoesNotExist:
         raise Http404('Webinar not found.')
+
+def webinar_dashboard(request):
+    context = {
+        'title': 'Dashboard',
+        'user': request.user,
+        'webinars': Webinar.objects.filter(organizer=request.user)
+    }
+    return render(request, 'core/dashboard.html', context)
