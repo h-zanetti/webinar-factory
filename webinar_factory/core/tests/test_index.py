@@ -22,4 +22,3 @@ def index_response(client, user):
 
 def test_index_status_code(index_response):
     assert index_response.status_code == 200
-
