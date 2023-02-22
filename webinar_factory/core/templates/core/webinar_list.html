@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+{% load bootstrap5 %}
+
+{% block content %}
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-3">
+      <form method="get">
+        <div class="row">
+            {% bootstrap_form form layout='vertical' form_group_class='mb-3 col-6' %}
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <a href="{% url 'core:webinar_list' %}" class="btn btn-danger">Limpar</a>
+      </form>
+    </div>
+    <div class="col-md-9">
+      {% if webinars %}
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+          {% for webinar in webinars %}
+            <div class="col">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{ webinar.name }}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">{{ webinar.start_dt|date:"M d, Y" }} - {{ webinar.end_dt|date:"M d, Y" }}</h6>
+                  <p class="card-text">{{ webinar.description }}</p>
+                  <p class="card-text">Speakers:
+                    {% for speaker in webinar.speakers.all|slice:":3" %}
+                      {{ speaker.first_name }} {{ speaker.last_name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                  </p>
+                  <p class="card-text">Price: ${{ webinar.ticket_price }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No webinars found.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
